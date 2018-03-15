@@ -95,6 +95,11 @@ func (p Plugin) Exec() error {
 	// login to the Docker registry
 	if p.Login.Password != "" {
 		cmd := commandLogin(p.Login)
+
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		trace(cmd)
+
 		err := cmd.Run()
 		if err != nil {
 			return fmt.Errorf("Error authenticating: %s", err)
